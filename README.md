@@ -1,4 +1,4 @@
-Sencha touch Infinite lazy-loading images List  
+Sencha touch Infinite Lazyload List  
 ================
 
 The problem
@@ -20,9 +20,9 @@ Do note that this means you need to pass back the width & height (or ratio heigh
 Sample data:
 ```javascript
 [
-        { src: 'http://lorempixel.com/400/200/sports/', width: 400, height: 200},
-        { src: 'http://lorempixel.com/400/200/nightlife/', width: 400, height: 200 },
-        { src: 'http://lorempixel.com/400/200/animals/', width: 400, height: 200 }
+    { src: 'http://lorempixel.com/400/200/sports/', width: 400, height: 200},
+    { src: 'http://lorempixel.com/400/200/nightlife/', width: 400, height: 200 },
+    { src: 'http://lorempixel.com/400/200/animals/', width: 400, height: 200 }
 ]
 ```
 
@@ -43,16 +43,16 @@ How to use
 Use infinitelist as your **xtype**, override **itemTpl** if neccessary
 ```javascript
 {
-        xtype: 'infinitelist',
-        store: 'imagestore',
-        itemTpl:
-        '<div class="infinite-item">' +
-            '<div class="wrapper" style="position: relative; width:100%; padding-bottom: {[100*values.height/values.width]}%; background-color:#eee; border: 1px solid #aaa">' +
-                '<div class="inner" style="position:absolute; top:0; bottom:0; left:0; right:0 ">' +
-                    '<img style="width: 100%; opacity:0; transition: opacity 3s" data-src="{src}" />' +
-                '</div>' +
+    xtype: 'infinitelist',
+    store: 'imagestore',
+    itemTpl:
+    '<div class="infinite-item">' +
+        '<div class="wrapper" style="position: relative; width:100%; padding-bottom: {[100*values.height/values.width]}%; background-color:#eee; border: 1px solid #aaa">' +
+            '<div class="inner" style="position:absolute; top:0; bottom:0; left:0; right:0 ">' +
+                '<img style="width: 100%; opacity:0; transition: opacity 3s" data-src="{src}" />' +
             '</div>' +
-        '</div>'
+        '</div>' +
+    '</div>'
 }
 ```
 
