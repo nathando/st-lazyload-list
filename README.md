@@ -16,7 +16,7 @@ Lazy load images
 By combining infinite feature of Sencha Touch list and fix the container of the image, we can make it
 load correctly using infinite.
 
-Do note that this means you need to pass back the width & height (or ratio height/width) from server
+Do note that this means you need to pass back the width & height (or ratio height/width) from server  
 Sample data:
 ```javascript
 [

@@ -56,7 +56,6 @@ Ext.define('LazyLoad.view.Main', {
                 title: 'Infinite Lazyload List Demo',
                 iconCls: 'favorites',
                 layout: 'fit',
-                scrollable: true,
                 items: [
                     {
                         docked: 'top',
