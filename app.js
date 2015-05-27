@@ -17,6 +17,10 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
+    controllers: [
+        'MainController',
+    ],
+
     views: [
         'Main',
         'InfiniteList'
