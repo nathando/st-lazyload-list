@@ -41,42 +41,58 @@ Ext.define('LazyLoad.view.InfiniteList', {
         var list = this;
         var windowHeight = Ext.Viewport.getWindowHeight();
         // Bind event - initialize
+        // console.log('view items', list.getViewItems());
         if (!list.getBinded() && list.getViewItems().length>0)
         {
             list.itemHeights = {};
             list.itemScrollHeights = {};
             Ext.Array.each(list.getViewItems(), function(listItem, index){
                 list.itemScrollHeights[0] = 0;
+                list.itemsPainted = 0;
+                // Loop through and record item heights
                 listItem.on('painted', function(item){
                     list.itemHeights[index] = item.getHeight();
-                    var tempIndex = index;
-                    while (tempIndex>0) {
-                        list.itemScrollHeights[tempIndex] = list.itemScrollHeights[tempIndex-1] + list.itemHeights[tempIndex];
-                        tempIndex--;
-                    }
-                    //console.log("index", index, list.itemScrollHeights[index]);
-                    if (list.itemScrollHeights[index]<windowHeight) {
-                        list.showImage(item);
+                    list.itemsPainted ++;
+                    // All items are painted.
+                    if (list.itemsPainted == list.getViewItems().length) {
+                        // Let's calculate their scroll heights
+                        list.itemScrollHeights = list.calculateScrollHeights(list.itemHeights, list.getViewItems().length);
+                        // Show all those already on screen
+                        list.loadVisibleImage();
                     }
                 });
             });
+
             list.setBinded(true);
         }
         else {
-            //Reverse y
-            var scrollY = -y;
-            var listViewItems = list.getViewItems();
-            for (var index in list.itemScrollHeights) {
-                listItemHeight = list.itemScrollHeights[index];
-                //console.log('scroller y', scrollY + windowHeight, listItemHeight, index);
-                var listItemEl = listViewItems[index].element;
-                if (listItemHeight < scrollY + windowHeight) {
-                   list.showImage(listItemEl);
-                }
-            }
+            // Offset the screen by -y amount
+            list.loadVisibleImage(-y);
         }
     },
 
+    /* Calculate scroll height of a list of items based on their heights */
+    calculateScrollHeights: function(heights, len) {
+        var scrollHeights = {};
+        for (var i=0; i<len; i++) {
+            scrollHeights[i] = heights[i] + (i>0 ? scrollHeights[i-1] : 0);
+        }
+        return scrollHeights;
+    },
+
+    /* Loop through images to decide which to show*/
+    loadVisibleImage: function(offset) {
+        var list = this;
+        var windowHeight = Ext.Viewport.getWindowHeight();
+        Ext.Array.each(list.getViewItems(), function(listItem, index){
+            // Show any item that's on screen
+            if (list.itemScrollHeights[index]<windowHeight + (offset||0)) {
+                list.showImage(listItem.element);
+            }
+        });
+    },
+
+    /* Css manipulation to show image */
     showImage: function(listItemEl) {
         var img = listItemEl.down('img');
         if (img && !img.hasCls('loaded')) {
