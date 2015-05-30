@@ -75,7 +75,7 @@ Ext.define('LazyLoad.view.InfiniteList', {
     calculateScrollHeights: function(heights, len) {
         var scrollHeights = {};
         for (var i=0; i<len; i++) {
-            scrollHeights[i] = heights[i] + (i>0 ? scrollHeights[i-1] : 0);
+            scrollHeights[i] = (i>0 ? scrollHeights[i-1] : 0);
         }
         return scrollHeights;
     },
